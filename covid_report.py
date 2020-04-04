@@ -54,12 +54,18 @@ class CovidReport(QtWidgets.QMainWindow):
         Fill country list with country from loaded data
         """
 
+        self.ui.countryList.clear()
         country_list = [country for country in self.covid_df["countriesAndTerritories"]]
         self.country_list = list(set(country_list))
         self.country_list.sort()
+        self.country_list.insert(0, 'All')
+        searched_country = self.ui.searchCountry.toPlainText()
+
+        if len(searched_country) > 1:
+            self.country_list = [country for country in self.country_list if searched_country.lower() in country.lower()]
 
         self.ui.countryList.addItems(self.country_list)
-        self.ui.countryList.insertItem(0, 'All')
+        # self.ui.countryList.insertItem(0, 'All')
         #TODO add filter by search box input
 
     def percent_count(self, total_amount, increase):
@@ -77,7 +83,6 @@ class CovidReport(QtWidgets.QMainWindow):
         :param selectedItem:
         :return:
         """
-
 
         if selectedItem.text() == "All":
             self.ui.selectedDate.setText(self.covid_df['dateRep'].values[0])
@@ -149,6 +154,8 @@ class CovidReport(QtWidgets.QMainWindow):
         self.load_list()
 
         self.ui.countryList.itemClicked.connect(self.selected_country_values)
+        self.ui.searchCountry.textChanged.connect(self.load_list)
+        self.ui.updateButton.clicked.connect(self.get_data)
 
         #TODO add creating xls reports and visualisation
 
