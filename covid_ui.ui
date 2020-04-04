@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>COVID-19 report creator</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="countrySelect">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Select country:</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="countryList">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>210</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="searchLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Search:</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="searchCountry">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>210</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="countryLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>90</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Country:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="casesTotalLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>330</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Total cases:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dateLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>60</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Date:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deathTotalLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>360</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Deaths:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="firstDeathLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>120</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>First case:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="generalData">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>30</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>General data:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedCountry">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>90</y>
+      <width>281</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedDate">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>60</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedTotalCases">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>330</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedFirstCase">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>120</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedTotalDeaths">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>360</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lastDayDataLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>150</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Last day increase:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="casesLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>180</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cases:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deathsLabe">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>240</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Deaths:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lastDayDataLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>300</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="text">
+     <string>Total:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedLastDayCases">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>180</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedLastDayDeaths">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>240</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="casesPercentLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>210</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cases %:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedPercentDayCases">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>210</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deathsPercentLabel">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>270</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Deaths %:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="selectedPercentDayDeaths">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>270</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
