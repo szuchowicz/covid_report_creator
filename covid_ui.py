@@ -237,6 +237,9 @@ class Ui_MainWindow(object):
         self.updateButton = QtWidgets.QPushButton(self.centralwidget)
         self.updateButton.setGeometry(QtCore.QRect(10, 350, 75, 23))
         self.updateButton.setObjectName("updateButton")
+        self.createXls = QtWidgets.QPushButton(self.centralwidget)
+        self.createXls.setGeometry(QtCore.QRect(10, 390, 91, 23))
+        self.createXls.setObjectName("createXls")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -269,3 +272,4 @@ class Ui_MainWindow(object):
         self.deathsPercentLabel.setText(_translate("MainWindow", "Deaths %:"))
         self.selectedPercentDayDeaths.setText(_translate("MainWindow", "N/A"))
         self.updateButton.setText(_translate("MainWindow", "Update data"))
+        self.createXls.setText(_translate("MainWindow", "Create xls report"))
