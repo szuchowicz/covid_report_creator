@@ -7,6 +7,7 @@ import xlsxwriter
 from datetime import datetime
 
 import sys
+import os
 
 
 class CovidReport(QtWidgets.QMainWindow):
@@ -18,7 +19,7 @@ class CovidReport(QtWidgets.QMainWindow):
         Pandas dataframe containing current covid-19 data from around world
         """
 
-        source_url= 'https://opendata.ecdc.europa.eu/covid19/casedistribution/csv'
+        source_url = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/csv'
         data_path = "Data/covid_data.csv"
 
         try:
@@ -32,14 +33,14 @@ class CovidReport(QtWidgets.QMainWindow):
                 new_data = requests.get(source_url, allow_redirects=True)
                 open(data_path, "wb").write(new_data.content)
 
-                url_connected = QMessageBox.information(self, "Data collected", "Newest data collected from website")
+                QMessageBox.information(self, "Data collected", "Newest data collected from website")
             else:
-                url_error = QMessageBox.warning(self, "URL connection error",
-                                                "Unable to connect to website, getting data from last file")
+                QMessageBox.warning(self, "URL connection error",
+                                    "Unable to connect to website, getting data from last file")
 
         except Exception:
-            url_error = QMessageBox.warning(self, "URL connection error",
-                                            "Unable to connect to website, getting data from last file")
+            QMessageBox.warning(self, "URL connection error",
+                                "Unable to connect to website, getting data from last file")
 
         finally:
             """
@@ -48,15 +49,22 @@ class CovidReport(QtWidgets.QMainWindow):
 
             try:
                 '''
-                Load csv file to dataframe and reformat columns
+                Load csv file to dataframe and reformat columns, change date to 1 day earlier
                 '''
                 self.covid_df = pd.read_csv(data_path)
-
                 self.covid_df = self.covid_df.rename(columns={'dateRep': 'Date'})
+                self.covid_df['Date'] = pd.to_datetime(self.covid_df['Date'], format='%d/%m/%Y')
+                self.covid_df['Date'] = self.covid_df['Date'] - pd.to_timedelta(1, unit='d')
+                self.covid_df['Date'] = self.covid_df['Date'].dt.strftime('%d/%m/%Y')
 
+                '''
+                Drop rows where new cases and deaths is 0
+                '''
+                col_to_check = ['cases', 'deaths']
+                self.covid_df = self.covid_df[(self.covid_df[col_to_check] != 0).any(axis=1)]
 
-            except IOError as e:
-                pandas_error = QMessageBox.critical(self, "Error", "Unable to read data file")
+            except IOError:
+                QMessageBox.critical(self, "Error", "Unable to read data file")
 
     def load_list(self):
         """
@@ -89,11 +97,25 @@ class CovidReport(QtWidgets.QMainWindow):
 
     def selected_country_values(self, selectedItem):
         """
-        Update labels depends on item selected from countryList by user
+        Update labels depends on item selected from countryList by user, set file name
         :param selectedItem:
         """
-
         self.selected_item = selectedItem.text()
+
+        """
+        Create file name depending on selected item
+        """
+        date = datetime.now().strftime('%Y%m%d')
+        if self.selected_item == "All":
+            xls_name = f"Global_{date}.xlsx"
+            self.selected_data = self.covid_df
+
+        else:
+            xls_name = f"{self.selected_item}_{date}.xlsx"
+            self.selected_data = self.covid_df.loc[
+                self.covid_df['countriesAndTerritories'] == self.selected_item]
+
+        self.xls_name = f"Reports/{xls_name}"
 
         if selectedItem.text() == "All":
             self.ui.selectedDate.setText(self.covid_df['Date'].values[0])
@@ -147,29 +169,20 @@ class CovidReport(QtWidgets.QMainWindow):
         Tab "Day_by_day' includes each day statistics
         :return: xls file with country name and current date as filename
         """
-        date = datetime.now().strftime('%Y%m%d')
-        if self.selected_item == "All":
-            xls_name = f"Global_{date}.xlsx"
-            selected_data = self.covid_df
 
-        elif self.selected_item is None:
-            selection_warning = QMessageBox.warning(self, "No country selected", "Please select country for report")
+        if self.selected_item is None:
+            QMessageBox.warning(self, "No country selected", "Please select country for report")
             return False
-
-        else:
-            xls_name = f"{self.selected_item}_{date}.xlsx"
-            selected_data = self.covid_df.loc[
-                self.covid_df['countriesAndTerritories'] == self.selected_item]
 
         '''
         Create file and add worksheets
         '''
-        xls_name = f"Reports/{xls_name}"
-        xls_file = xlsxwriter.Workbook(xls_name)
+
+        selected_data = self.selected_data
+
+        xls_file = xlsxwriter.Workbook(self.xls_name)
         summary = xls_file.add_worksheet("Summary")
         day_by_day = xls_file.add_worksheet("Day_by_day")
-
-
 
         # Create formats for workbook
 
@@ -217,7 +230,6 @@ class CovidReport(QtWidgets.QMainWindow):
         summary.write(4, 0, "First case:", col_A_format)
         summary.write(4, 1, selected_data['Date'].values[-1], col_B_format)
 
-
         '''
         Filling and formatting day_by_day tab
         '''
@@ -227,7 +239,6 @@ class CovidReport(QtWidgets.QMainWindow):
         selected_data = selected_data.drop(['day', 'month', 'year', 'geoId',
                                             'countryterritoryCode', 'popData2018',
                                             'countriesAndTerritories'], axis=1)
-
 
         # If user choice is All world, sum up values by dates
         if self.selected_item == "All":
@@ -254,8 +265,6 @@ class CovidReport(QtWidgets.QMainWindow):
         day_by_day.write(0, 4, "Total deaths", header_format)
         day_by_day.write(0, 5, "% cases increase", header_format)
         day_by_day.write(0, 6, "% death increase", header_format)
-
-
 
         # Write values from dataframe based dict
         col_num = 0
@@ -295,8 +304,6 @@ class CovidReport(QtWidgets.QMainWindow):
                 day_by_day.write_formula(row, 3, f'=D{row+2}+B{row+1}', col_B_format)
                 day_by_day.write_formula(row, 4, f'=E{row+2}+C{row+1}', col_B_format)
 
-                # day_by_day.write_formula(row, 5, f'=B{row+1}/D{row+2}', percent_increase_format)
-
                 '''
                 Avoiding divide by 0 error in % increase columns
                 '''
@@ -325,7 +332,19 @@ class CovidReport(QtWidgets.QMainWindow):
 
         xls_file.close()
 
-        xls_done = QMessageBox.information(self, "Report created", "Selected report has been created")
+        QMessageBox.information(self, "Report created", "Selected report has been created")
+
+    def open_xls(self):
+
+        if self.selected_item is None:
+            QMessageBox.warning(self, "No country selected", "Please select country for report")
+            return False
+
+        try:
+            os.startfile(os.path.abspath(self.xls_name))
+
+        except FileNotFoundError:
+            QMessageBox.warning(self, "File not exists", "There is no such report, try to create it first")
 
     def __init__(self):
         super(CovidReport, self).__init__()
@@ -340,13 +359,19 @@ class CovidReport(QtWidgets.QMainWindow):
         self.get_data()
         self.load_list()
 
+        # Some private prediction
+        if datetime.now() >= datetime(2020, 5, 10):
+            QMessageBox.information(self, "Check prediction", "Predicted cases on 10.05.2020 in Poland is 112k")
+
         self.ui.countryList.itemClicked.connect(self.selected_country_values)
         self.ui.searchCountry.textChanged.connect(self.load_list)
         self.ui.updateButton.clicked.connect(self.get_data)
         self.ui.createXls.clicked.connect(self.create_xls)
+        self.ui.openXls.clicked.connect(self.open_xls)
 
-        #TODO add creating visualisation
-        #TODO fix data cleaning - 0 at begining at some countries
+        # TODO add creating visualisation
+        # TODO fix data cleaning - 0 at begining at some countries
+
 
 app = QtWidgets.QApplication([])
 application = CovidReport()

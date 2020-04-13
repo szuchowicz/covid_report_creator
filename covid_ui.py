@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(497, 477)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.countrySelect = QtWidgets.QLabel(self.centralwidget)
@@ -240,6 +240,9 @@ class Ui_MainWindow(object):
         self.createXls = QtWidgets.QPushButton(self.centralwidget)
         self.createXls.setGeometry(QtCore.QRect(10, 390, 91, 23))
         self.createXls.setObjectName("createXls")
+        self.openXls = QtWidgets.QPushButton(self.centralwidget)
+        self.openXls.setGeometry(QtCore.QRect(10, 430, 91, 23))
+        self.openXls.setObjectName("openXls")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -273,3 +276,4 @@ class Ui_MainWindow(object):
         self.selectedPercentDayDeaths.setText(_translate("MainWindow", "N/A"))
         self.updateButton.setText(_translate("MainWindow", "Update data"))
         self.createXls.setText(_translate("MainWindow", "Create xls report"))
+        self.openXls.setText(_translate("MainWindow", "Open xls report"))
